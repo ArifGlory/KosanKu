@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.DaftarActivity">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:id="@+id/scrollView"
+        android:layout_height="fill_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:paddingHorizontal="15dp">
+
+
+        <ImageView
+            android:layout_gravity="center"
+            android:id="@+id/user_profile_photo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/user_profile_image_background"
+            android:elevation="4dp"
+            android:src="@drawable/m_user"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:textColorHint="@color/black2"
+            android:theme="@style/myEditTextStyleBlack"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nama"
+                android:id="@+id/etUsername"
+                android:inputType="textEmailAddress"
+                android:textColorHint="@color/black2"
+                android:textColor="@color/black2"
+                android:drawableEnd="@drawable/ic_person_black_24dp"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:textColorHint="@color/black2"
+            android:theme="@style/myEditTextStyleBlack"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                android:id="@+id/etEmail"
+                android:inputType="textEmailAddress"
+                android:textColorHint="@color/black2"
+                android:textColor="@color/black2"
+                android:drawableEnd="@drawable/ic_email_black_24dp"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:textColorHint="@color/black2"
+            android:theme="@style/myEditTextStyleBlack"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="No. Handphone"
+                android:id="@+id/etNope"
+                android:inputType="number"
+                android:textColorHint="@color/black2"
+                android:textColor="@color/black2"
+                android:drawableEnd="@drawable/ic_smartphone_black_24dp"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:textColorHint="@color/black2"
+            android:layout_marginTop="10dp"
+            android:theme="@style/myEditTextStyleBlack"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:id="@+id/etPassword"
+                android:inputType="textPassword"
+                android:textColorHint="@color/black2"
+                android:textColor="@color/black2"
+                android:drawableEnd="@drawable/ic_lock_black_24dp"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:textColorHint="@color/black2"
+            android:layout_marginTop="10dp"
+            android:theme="@style/myEditTextStyleBlack"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Re-Enter Password"
+                android:id="@+id/etPassword2"
+                android:inputType="textPassword"
+                android:textColorHint="@color/black2"
+                android:textColor="@color/black2"
+                android:drawableEnd="@drawable/ic_lock_black_24dp"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Daftar Sebagai"
+            android:layout_marginTop="10dp"
+            android:textSize="18sp"
+            android:textColor="@color/black2"
+            />
+
+        <Spinner
+            android:padding="10dp"
+            android:id="@+id/sp_level"
+            android:entries="@array/listLevel"
+            android:background="@drawable/et_background1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></Spinner>
+
+        <Button
+            android:id="@+id/btnDaftar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/loginbutton_selector"
+            android:padding="3dp"
+            android:text="Daftar"
+            android:textColor="@color/white_greyish"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="40dp"/>
+
+    </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

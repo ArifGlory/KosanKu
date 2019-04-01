@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "420627841953",
+    "firebase_url": "https://kosanku-c9f0e.firebaseio.com",
+    "project_id": "kosanku-c9f0e",
+    "storage_bucket": "kosanku-c9f0e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:420627841953:android:c5493c40e6b838ed",
+        "android_client_info": {
+          "package_name": "myproject.kosanku"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "420627841953-v6abe2c547pdmrg7jdldgg8ghq08bcno.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "myproject.kosanku",
+            "certificate_hash": "ea6e4d451b776339d2b6ce82d3e7bf3bcf25299f"
+          }
+        },
+        {
+          "client_id": "420627841953-6lp9euqtkve4solj2hcn2quhc4r35htc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSc0vF-2CXEvlZMpzeDf1FsTGkckDR9rE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "420627841953-6lp9euqtkve4solj2hcn2quhc4r35htc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

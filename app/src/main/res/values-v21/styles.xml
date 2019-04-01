@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="myEditTextStyle">
+        <item name="android:colorControlNormal" tools:targetApi="lollipop">#ffffff</item>
+        <item name="android:colorControlActivated" tools:targetApi="lollipop">#ffffff</item>
+        <item name="android:colorControlHighlight" tools:targetApi="lollipop">#ffffff</item>
+        <item name="android:colorAccent" tools:targetApi="lollipop">#ffffff</item>
+        <item name="android:textColorHint">#ffffff</item>
+    </style>
+</resources>
