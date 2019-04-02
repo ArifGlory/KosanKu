@@ -1,8 +1,12 @@
 package myproject.kosanku.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,10 +17,22 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.firebase.client.Firebase;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import myproject.kosanku.MainActivity;
 import myproject.kosanku.R;
+import myproject.kosanku.fragment.FragmentHomePemilik;
 
 public class PemilikActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    FragmentHomePemilik fragmentHomePemilik;
+    private FirebaseAuth fAuth;
+    private FirebaseAuth.AuthStateListener fStateListener;
+    FirebaseUser fbUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,15 +40,13 @@ public class PemilikActivity extends AppCompatActivity
         setContentView(R.layout.activity_pemilik);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Firebase.setAndroidContext(this);
+        FirebaseApp.initializeApp(PemilikActivity.this);
+        fAuth = FirebaseAuth.getInstance();
+        fbUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        fragmentHomePemilik = new FragmentHomePemilik();
+        goToFragment(fragmentHomePemilik,true);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -42,6 +56,16 @@ public class PemilikActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    void goToFragment(Fragment fragment, boolean isTop) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.replace(R.id.fragmen_homeKosan, fragment);
+        if (!isTop)
+            fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -69,8 +93,12 @@ public class PemilikActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_logout_pemilik) {
+            if (fbUser!=null){
+                fAuth.signOut();
+                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(i);
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -82,19 +110,20 @@ public class PemilikActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_home) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+            goToFragment(fragmentHomePemilik,true);
+        } else if (id == R.id.nav_pesanan) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_logout) {
+            if (fbUser!=null){
+                fAuth.signOut();
+                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(i);
+            }
         }
+
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

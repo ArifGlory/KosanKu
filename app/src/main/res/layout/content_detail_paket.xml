@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".activity.DetailKosActivity"
+    tools:showIn="@layout/activity_detail_kos">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/relaDetail"
+        android:padding="5dp"
+        android:background="#DCEDC8">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp">
+            <TextView
+                android:id="@+id/txtHarga"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rp. 00"
+                android:textColor="@color/black2"
+                android:textStyle="bold"
+                android:textSize="20dp" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/txtSisaKamar"
+            android:background="@drawable/btn_round"
+            android:layout_marginLeft="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sisa kamar"
+            android:textColor="@color/white"
+            android:layout_marginBottom="5dp"
+            android:textStyle="normal"
+            android:textSize="17dp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fasilitas"
+                android:layout_gravity="right"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:id="@+id/btnFasilitas"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/white_greyish"
+                android:layout_alignParentBottom="true" />
+
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_height="wrap_content"
+                android:text="Lokasi"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:id="@+id/btnLokasi"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/white_greyish" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/relaDetail"
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:scrollbars="vertical" />
+
+</RelativeLayout>

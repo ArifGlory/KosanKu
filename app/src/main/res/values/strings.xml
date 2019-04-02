@@ -12,9 +12,16 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+    <string name="idFasilitasAc">AC</string>
+    <string name="idFasilitasKmrMandi">KmrMandi</string>
+    <string name="idFasilitasWifi">Wifi</string>
+    <string name="idFasilitasKasur">Kasur</string>
+    <string name="idFasilitasLemari">Lemari</string>
+
     <string-array name="listLevel">
         <item>Pilih Akses Akun</item>
         <item>Penyewa</item>
         <item>Pemilik</item>
     </string-array>
+    <string name="title_activity_maps">Map</string>
 </resources>

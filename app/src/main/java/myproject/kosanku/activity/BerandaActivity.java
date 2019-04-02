@@ -110,7 +110,7 @@ public class BerandaActivity extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(i);
             }
-            return true;
+
         }
 
         return super.onOptionsItemSelected(item);

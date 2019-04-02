@@ -33,6 +33,8 @@
     <color name="startblue">#4bb6ef</color>
     <color name="endblue">#4bb6ef</color>
     <color name="black2">#4c4c4c</color>
+    <color name="text_like">#2b5a83</color>
+    <color name="viewBg">#f1f5f8</color>
 
     <color name="btn_send_normal">#02c754</color>
     <color name="btn_send_pressed">#006633</color>

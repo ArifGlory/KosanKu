@@ -1,0 +1,50 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kos Saya"
+            android:id="@+id/txtSalam"
+            android:textColor="@color/black2"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+            android:fontFamily="@font/gotham"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"/>
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btnCreate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="30dp"
+            app:srcCompat="@drawable/ic_add_white_24dp"
+            app:borderWidth="0dp"
+            app:elevation="6dp"
+            app:pressedTranslationZ="12dp" />
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvHomePemilik"
+            android:layout_below="@+id/txtSalam"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:scrollbars="vertical" />
+
+    </RelativeLayout>
+</FrameLayout>
+

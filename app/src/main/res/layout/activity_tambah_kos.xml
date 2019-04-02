@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    tools:context=".activity.TambahKosActivity">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fitsSystemWindows="true"
+        >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_marginTop="15dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
+            android:foregroundGravity="center_horizontal"
+            android:src="@drawable/img_placeholder"
+            android:id="@+id/imgGambar"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pilih Gambar Utama"
+            android:id="@+id/txtInfoGambar"
+            android:layout_gravity="center"
+            android:textSize="16sp"
+            android:textColor="#000"
+            />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:textColorHint="@color/black2"
+            android:theme="@style/myEditTextStyleBlack"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nama Kos"
+                android:id="@+id/etNamaKos"
+                android:inputType="textEmailAddress"
+                android:textColorHint="@color/black2"
+                android:textColor="@color/black2"
+                android:drawableEnd="@drawable/ic_home_black_24dp"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:textColorHint="@color/black2"
+            android:theme="@style/myEditTextStyleBlack"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Harga"
+                android:id="@+id/etHarga"
+                android:inputType="number"
+                android:textColorHint="@color/black2"
+                android:textColor="@color/black2"
+                android:drawableEnd="@drawable/ic_attach_money_black_24dp"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:textColorHint="@color/black2"
+            android:theme="@style/myEditTextStyleBlack"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Sisa Kamar"
+                android:id="@+id/etSisaKamar"
+                android:inputType="number"
+                android:textColorHint="@color/black2"
+                android:textColor="@color/black2"
+                android:drawableEnd="@drawable/ic_book_black_24dp"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Alamat"
+            android:layout_gravity="left"
+            android:layout_marginLeft="10dp"
+            android:textSize="16sp"
+            android:textColor="#000"
+            />
+        <Button
+            android:id="@+id/btnPilihAlamat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:text="Pilih lokasi alamat"
+            android:textColor="@color/colorPrimary"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="alamat"
+            android:id="@+id/txtAlamat"
+            android:visibility="invisible"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:textSize="16sp"
+            android:textColor="#000"
+            />
+
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/loginbutton_selector"
+            android:padding="3dp"
+            android:text="Next"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="25dp"/>
+
+    </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

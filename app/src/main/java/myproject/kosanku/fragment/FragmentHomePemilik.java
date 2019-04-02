@@ -1,9 +1,11 @@
 package myproject.kosanku.fragment;
 
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,8 +14,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.firebase.client.Firebase;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,7 +23,6 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -32,26 +31,28 @@ import java.util.List;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import myproject.kosanku.Kelas.Kosan;
 import myproject.kosanku.R;
+import myproject.kosanku.activity.TambahKosActivity;
 import myproject.kosanku.adapter.AdapterKosan;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentHome extends Fragment {
+public class FragmentHomePemilik extends Fragment {
 
 
-    public FragmentHome() {
+    public FragmentHomePemilik() {
         // Required empty public constructor
     }
 
 
     RecyclerView recyclerView;
     FirebaseFirestore firestore;
-
+    FloatingActionButton btnCreate;
     private SweetAlertDialog pDialogLoading,pDialodInfo;
     AdapterKosan adapter;
     private List<Kosan> kosanList;
+
     CollectionReference ref;
 
 
@@ -59,13 +60,15 @@ public class FragmentHome extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        final View view = inflater.inflate(R.layout.fragment_beranda, container, false);
+        final View view = inflater.inflate(R.layout.fragment_home_pemilik, container, false);
         Firebase.setAndroidContext(this.getActivity());
         FirebaseApp.initializeApp(this.getActivity());
         firestore = FirebaseFirestore.getInstance();
         ref = firestore.collection("kosan");
 
-        recyclerView = view.findViewById(R.id.rvFeed);
+        recyclerView = view.findViewById(R.id.rvHomePemilik);
+        btnCreate = view.findViewById(R.id.btnCreate);
+
         kosanList = new ArrayList<>();
         adapter = new AdapterKosan(getActivity(),kosanList);
 
@@ -80,6 +83,14 @@ public class FragmentHome extends Fragment {
         pDialogLoading.setTitleText("Loading..");
         pDialogLoading.setCancelable(false);
         pDialogLoading.show();
+
+        btnCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),TambahKosActivity.class);
+                startActivity(intent);
+            }
+        });
 
         getDataKosan();
 

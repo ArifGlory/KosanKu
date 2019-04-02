@@ -1,27 +1,32 @@
 package myproject.kosanku.Kelas;
 
-public class Kosan {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class Kosan implements Serializable {
     public String namaKos;
     public String alamat;
     public int harga;
     public int sisaKamar;
     public String uidPemilik;
     public String gambarUtama;
-    public String nopePemilik;
     public String idKos;
     public String latlon;
 
 
-    public Kosan(String namaKos, String alamat, int harga, int sisaKamar, String uidPemilik, String gambarUtama, String nopePemilik, String idKos, String latlon) {
+    public Kosan(String namaKos, String alamat, int harga, int sisaKamar, String uidPemilik, String gambarUtama, String idKos, String latlon) {
         this.namaKos = namaKos;
         this.alamat = alamat;
         this.harga = harga;
         this.sisaKamar = sisaKamar;
         this.uidPemilik = uidPemilik;
         this.gambarUtama = gambarUtama;
-        this.nopePemilik = nopePemilik;
         this.idKos = idKos;
         this.latlon = latlon;
+    }
+
+    public Kosan(){
+
     }
 
     public String getNamaKos() {
@@ -72,13 +77,6 @@ public class Kosan {
         this.gambarUtama = gambarUtama;
     }
 
-    public String getNopePemilik() {
-        return nopePemilik;
-    }
-
-    public void setNopePemilik(String nopePemilik) {
-        this.nopePemilik = nopePemilik;
-    }
 
     public String getIdKos() {
         return idKos;

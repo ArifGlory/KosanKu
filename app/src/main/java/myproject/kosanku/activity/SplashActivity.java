@@ -46,6 +46,7 @@ public class SplashActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
 
         if (fbUser!=null){
+            Log.d("fbUser:","ada fbuser"+fbUser.getDisplayName());
             String token = FirebaseInstanceId.getInstance().getToken();
             SharedVariable.userID = fAuth.getCurrentUser().getUid();
             SharedVariable.nama = fAuth.getCurrentUser().getDisplayName();
@@ -87,6 +88,7 @@ public class SplashActivity extends AppCompatActivity {
             });
 
         }else {
+            Log.d("fbUser:","gak ada fbuser");
             i = new Intent(SplashActivity.this, BerandaActivity.class);
             startActivity(i);
         }
