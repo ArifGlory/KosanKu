@@ -49,21 +49,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="3dp"
             android:layout_marginBottom="5dp"
             android:orientation="horizontal">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Fasilitas"
-                android:layout_gravity="right"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:id="@+id/btnFasilitas"
-                android:background="@color/colorPrimary"
-                android:textColor="@color/white_greyish"
-                android:layout_alignParentBottom="true" />
 
 
             <Button
@@ -71,7 +59,7 @@
                 android:layout_marginLeft="25dp"
                 android:layout_height="wrap_content"
                 android:text="Lokasi"
-                android:textSize="16sp"
+                android:textSize="13sp"
                 android:textStyle="bold"
                 android:id="@+id/btnLokasi"
                 android:background="@color/colorPrimary"
@@ -90,6 +78,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        android:layout_marginBottom="40dp"/>
 
 </RelativeLayout>

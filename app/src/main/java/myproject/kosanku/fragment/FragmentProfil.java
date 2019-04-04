@@ -1,6 +1,7 @@
 package myproject.kosanku.fragment;
 
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Shader;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -19,6 +21,8 @@ import com.firebase.client.Firebase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -30,6 +34,7 @@ import java.util.List;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 import myproject.kosanku.Kelas.SharedVariable;
+import myproject.kosanku.MainActivity;
 import myproject.kosanku.R;
 
 
@@ -52,6 +57,9 @@ public class FragmentProfil extends Fragment {
     CollectionReference ref,refUser;
     TextView txtNama,txtEmail,txtNope;
     CircleImageView ivUserProfilePhoto;
+    RelativeLayout relaLogout;
+    FirebaseUser fbUser;
+    private FirebaseAuth fAuth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,11 +69,14 @@ public class FragmentProfil extends Fragment {
         Firebase.setAndroidContext(this.getActivity());
         FirebaseApp.initializeApp(this.getActivity());
         firestore = FirebaseFirestore.getInstance();
+        fAuth = FirebaseAuth.getInstance();
+        fbUser = FirebaseAuth.getInstance().getCurrentUser();
         ref = firestore.collection("users");
 
         txtNama = view.findViewById(R.id.txtNamaProfil);
         txtEmail = view.findViewById(R.id.txtEmail);
         txtNope = view.findViewById(R.id.txtPhone);
+        relaLogout = view.findViewById(R.id.relaLogout);
         ivUserProfilePhoto = view.findViewById(R.id.imgProfile);
 
 
@@ -82,6 +93,18 @@ public class FragmentProfil extends Fragment {
                     .load(SharedVariable.foto)
                     .into(ivUserProfilePhoto);
         }
+
+        relaLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (fbUser!=null){
+                    fAuth.signOut();
+                    Intent i = new Intent(getActivity(), MainActivity.class);
+                    startActivity(i);
+                }
+
+            }
+        });
 
         getDataUser();
 

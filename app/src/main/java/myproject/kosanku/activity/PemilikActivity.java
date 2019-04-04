@@ -16,12 +16,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.firebase.client.Firebase;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import myproject.kosanku.Kelas.SharedVariable;
 import myproject.kosanku.MainActivity;
 import myproject.kosanku.R;
 import myproject.kosanku.fragment.FragmentHomePemilik;
@@ -56,6 +58,9 @@ public class PemilikActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View headerView = navigationView.getHeaderView(0);
+        TextView txtNamaProfil = (TextView) headerView.findViewById(R.id.txtNamaPemilik);
+        txtNamaProfil.setText(SharedVariable.nama);
     }
 
     void goToFragment(Fragment fragment, boolean isTop) {
@@ -113,9 +118,7 @@ public class PemilikActivity extends AppCompatActivity
         if (id == R.id.nav_home) {
             // Handle the camera action
             goToFragment(fragmentHomePemilik,true);
-        } else if (id == R.id.nav_pesanan) {
-
-        } else if (id == R.id.nav_logout) {
+        }  else if (id == R.id.nav_logout) {
             if (fbUser!=null){
                 fAuth.signOut();
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);

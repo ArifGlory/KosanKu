@@ -67,7 +67,10 @@
         <activity
             android:name=".activity.PilihFasilitasActivity"
             android:label="Pilih Fasilitas" />
-        <activity android:name=".activity.DetailKosActivity"
+        <activity
+            android:name=".activity.DetailKosActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.ResultActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

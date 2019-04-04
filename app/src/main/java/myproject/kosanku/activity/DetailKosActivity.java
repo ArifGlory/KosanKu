@@ -2,6 +2,7 @@ package myproject.kosanku.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,7 +23,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.NumberFormat;
@@ -41,16 +44,17 @@ public class DetailKosActivity extends AppCompatActivity {
 
     TextView txtNamaKos,txtHarga,txtSisaKamar;
     ImageView imgKos;
-    Button btnHubungi,btnLokasi,btnFasilitas;
+    Button btnHubungi,btnLokasi;
     RecyclerView recycler_view;
     Intent intent;
     FirebaseFirestore firestore;
 
     private SweetAlertDialog pDialogLoading,pDialodInfo;
-    CollectionReference ref;
+    CollectionReference ref,refPemilik;
     Kosan kosan;
     AdapterFasilitas adapter;
     private List<Fasilitas> fasilitasList;
+    private String nomorPemilik = "no";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +64,7 @@ public class DetailKosActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(DetailKosActivity.this);
         firestore = FirebaseFirestore.getInstance();
         ref = firestore.collection("kosan");
+        refPemilik = firestore.collection("users");
 
 
         intent = getIntent();
@@ -110,6 +115,21 @@ public class DetailKosActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        btnHubungi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (nomorPemilik.equals("no")){
+                    getDataPemilik();
+                }else {
+                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", nomorPemilik, null));
+                    startActivity(intent);
+                }
+
+            }
+        });
+
+        getDataFasilitas();
+        getDataPemilik();
 
     }
 
@@ -146,5 +166,15 @@ public class DetailKosActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void getDataPemilik(){
+        refPemilik.document(kosan.getUidPemilik()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot dc = task.getResult();
+                nomorPemilik = dc.get("nope").toString();
+            }
+        });
     }
 }

@@ -26,7 +26,7 @@
             android:id="@+id/txtNamaKos"
             android:textColor="@color/text_like" />
 
-        <myproject.kosanku.view.SquaredFrameLayout
+        <RelativeLayout
             android:id="@+id/vImageRoot"
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"
@@ -46,7 +46,7 @@
 
             </RelativeLayout>
 
-        </myproject.kosanku.view.SquaredFrameLayout>
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/ivFeedBottom"

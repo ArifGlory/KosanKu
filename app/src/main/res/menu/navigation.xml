@@ -7,11 +7,6 @@
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/navigation_booking"
-        android:icon="@drawable/ic_local_mall_black_24dp"
-        android:title="Booking" />
-
-    <item
         android:id="@+id/navigation_profil"
         android:icon="@drawable/ic_person_black_24dp"
         android:title="Profil" />

@@ -43,9 +43,6 @@ public class BerandaActivity extends AppCompatActivity {
                 case R.id.navigation_home:
                     goToFragment(fragmentHome,true);
                     return true;
-                case R.id.navigation_booking:
-
-                    return true;
                 case R.id.navigation_profil:
                     goToFragment(fragmentProfil,true);
                     return true;

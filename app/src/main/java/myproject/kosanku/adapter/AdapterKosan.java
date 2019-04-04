@@ -21,11 +21,14 @@ import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 import myproject.kosanku.Kelas.Kosan;
 import myproject.kosanku.Kelas.SharedVariable;
 import myproject.kosanku.R;
 import myproject.kosanku.activity.DetailKosActivity;
+import myproject.kosanku.activity.PemilikActivity;
+import myproject.kosanku.activity.PilihFasilitasActivity;
 
 
 /**
@@ -97,8 +100,41 @@ public class AdapterKosan extends RecyclerView.Adapter<AdapterKosan.MyViewHolder
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext,DetailKosActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra("kosan",kosan);
                     mContext.startActivity(intent);
+                }
+            });
+            holder.lineContainer.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+
+                    if (SharedVariable.akses.equals("Pemilik")){
+                        new SweetAlertDialog(mContext, SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("Edit Kosan")
+                                .setContentText("Anda dapat melakukan perubahan pada kosan ini")
+                                .setConfirmText("Ubah Data")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+
+
+                                        sDialog.dismissWithAnimation();
+
+                                    }
+                                })
+                                .setCancelButton("Hapus Kosan", new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        sDialog.dismissWithAnimation();
+
+                                    }
+                                })
+                                .show();
+                    }
+
+
+                    return true;
                 }
             });
 
