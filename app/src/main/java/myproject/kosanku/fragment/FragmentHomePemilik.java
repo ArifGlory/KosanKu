@@ -30,6 +30,7 @@ import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import myproject.kosanku.Kelas.Kosan;
+import myproject.kosanku.Kelas.SharedVariable;
 import myproject.kosanku.R;
 import myproject.kosanku.activity.TambahKosActivity;
 import myproject.kosanku.adapter.AdapterKosan;
@@ -97,10 +98,10 @@ public class FragmentHomePemilik extends Fragment {
         return view;
     }
 
-    private void getDataKosan(){
+    public void getDataKosan(){
 
 
-        ref.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        ref.whereEqualTo("uidPemilik",SharedVariable.userID).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 kosanList.clear();

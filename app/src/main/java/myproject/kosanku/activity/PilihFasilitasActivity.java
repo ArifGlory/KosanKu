@@ -27,7 +27,7 @@ public class PilihFasilitasActivity extends AppCompatActivity {
     CheckBox checkAc,checkKmrMandi,checkWifi,checkKasur,checkLemari;
     FirebaseFirestore firestore;
     private SweetAlertDialog pDialogLoading,pDialodInfo;
-    CollectionReference ref;
+    CollectionReference ref,refFasilitas;
     private String idAC,idKmrMandi,idLemari,idKasur,idWifi;
 
     @Override
@@ -38,6 +38,7 @@ public class PilihFasilitasActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(PilihFasilitasActivity.this);
         firestore = FirebaseFirestore.getInstance();
         ref = firestore.collection("kosan");
+        refFasilitas = firestore.collection("fasilitas");
 
         idAC = "AC";
         idKasur = "Kasur";
@@ -80,40 +81,69 @@ public class PilihFasilitasActivity extends AppCompatActivity {
         if (checkAc.isChecked()){
             Fasilitas fasilitasAc = new Fasilitas(idAC,"Fasilitas AC");
 
-            ref.document(SharedVariable.tempKosan.getIdKos()).collection("listFasilitas").document(idAC).set(fasilitasAc)
+            ref.document(SharedVariable.idKos).collection("listFasilitas").document(idAC).set(fasilitasAc).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    Log.d("fasilitasKos:","Fasilitas Ac disimpan");
+                }
+            });
+
+            refFasilitas.document(idAC).collection("listKos").document(SharedVariable.idKos).set(fasilitasAc)
             .addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     Log.d("fasilitas:","Fasilitas Ac disimpan");
                 }
             });
+
         }
         if (checkKmrMandi.isChecked()){
             Fasilitas fasilitas= new Fasilitas(idKmrMandi,"Fasilitas Kamar Mandi");
 
-            ref.document(SharedVariable.idKos).collection("listFasilitas").document(idKmrMandi).set(fasilitas)
+            ref.document(SharedVariable.idKos).collection("listFasilitas").document(idKmrMandi).set(fasilitas).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    Log.d("fasilitasKos:","Fasilitas  ac disimpan");
+                }
+            });
+
+            refFasilitas.document(idKmrMandi).collection("listKos").document(SharedVariable.idKos).set(fasilitas)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            Log.d("fasilitas:","Fasilitas KmrMandi disimpan");
+                            Log.d("fasilitas:","Fasilitas Kamar Mandi disimpan");
                         }
                     });
         }
         if (checkWifi.isChecked()){
             Fasilitas fasilitas = new Fasilitas(idWifi,"Fasilitas Free Wifi");
 
-            ref.document(SharedVariable.idKos).collection("listFasilitas").document(idWifi).set(fasilitas)
+            ref.document(SharedVariable.idKos).collection("listFasilitas").document(idWifi).set(fasilitas).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    Log.d("fasilitasKos:","Fasilitas wifi disimpan");
+                }
+            });
+
+            refFasilitas.document(idWifi).collection("listKos").document(SharedVariable.idKos).set(fasilitas)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            Log.d("fasilitas:","Fasilitas FreeWifi disimpan");
+                            Log.d("fasilitas:","Fasilitas Wifi disimpan");
                         }
                     });
         }
         if (checkLemari.isChecked()){
             Fasilitas fasilitas = new Fasilitas(idLemari,"Fasilitas Lemari");
 
-            ref.document(SharedVariable.idKos).collection("listFasilitas").document(idLemari).set(fasilitas)
+            ref.document(SharedVariable.idKos).collection("listFasilitas").document(idLemari).set(fasilitas).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    Log.d("fasilitasKos:","Fasilitas lemari disimpan");
+                }
+            });
+
+            refFasilitas.document(idLemari).collection("listKos").document(SharedVariable.idKos).set(fasilitas)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
@@ -124,7 +154,14 @@ public class PilihFasilitasActivity extends AppCompatActivity {
         if (checkKasur.isChecked()){
             Fasilitas fasilitas = new Fasilitas(idKasur,"Fasilitas Kasur");
 
-            ref.document(SharedVariable.idKos).collection("listFasilitas").document(idKasur).set(fasilitas)
+            ref.document(SharedVariable.idKos).collection("listFasilitas").document(idKasur).set(fasilitas).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    Log.d("fasilitasKos:","Fasilitas kasur disimpan");
+                }
+            });
+
+            refFasilitas.document(idKasur).collection("listKos").document(SharedVariable.idKos).set(fasilitas)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {

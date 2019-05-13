@@ -41,7 +41,8 @@ public class ResultActivity extends AppCompatActivity {
     private SweetAlertDialog pDialogLoading,pDialodInfo;
     AdapterKosan adapter;
     private List<Kosan> kosanList;
-    CollectionReference ref;
+    private List<String> listKos;
+    CollectionReference ref,refFasilitas;
     Intent intent;
     private String tipe;
     private Toolbar my_toolbar;
@@ -55,7 +56,7 @@ public class ResultActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(getApplicationContext());
         firestore = FirebaseFirestore.getInstance();
         ref = firestore.collection("kosan");
-
+        refFasilitas = firestore.collection("fasilitas");
 
         intent = getIntent();
         tipe = intent.getStringExtra("tipe");
@@ -69,6 +70,7 @@ public class ResultActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.rvFeed);
 
         kosanList = new ArrayList<>();
+        listKos = new ArrayList<>();
         adapter = new AdapterKosan(getApplicationContext(),kosanList);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -93,6 +95,10 @@ public class ResultActivity extends AppCompatActivity {
         } else if (tipe.equals("harga")){
             getSupportActionBar().setTitle("Filter Harga");
             getDataByHarga();
+        }else if (tipe.equals("fasilitas")){
+            getSupportActionBar().setTitle(""+SharedVariable.namaFilterFslts);
+            getDataByFasilitas(SharedVariable.idFilterFslts);
+
         }
     }
 
@@ -207,5 +213,106 @@ public class ResultActivity extends AppCompatActivity {
                 Log.d("gagalGetData:",e.toString());
             }
         });
+    }
+
+    public void getDataByFasilitas(String idFasilitas){
+       refFasilitas.document(idFasilitas).collection("listKos").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+           @Override
+           public void onComplete(@NonNull Task<QuerySnapshot> task) {
+               QuerySnapshot dc = task.getResult();
+               pDialogLoading.dismiss();
+
+               if (dc.isEmpty()){
+                   resetSVFasilitas();
+                   txtInfo.setVisibility(View.VISIBLE);
+               }
+
+               if (task.isSuccessful()){
+                   resetSVFasilitas();
+                   listKos.clear();
+
+                   for (DocumentSnapshot doc : task.getResult()){
+                       String idKos = doc.getId();
+                       listKos.add(idKos);
+                       Log.d("resultKos:",idKos);
+                   }
+                   getDataKosByString();
+
+               }else {
+                   resetSVFasilitas();
+                   new SweetAlertDialog(ResultActivity.this,SweetAlertDialog.ERROR_TYPE)
+                           .setContentText("Pengambilan data gagal")
+                           .show();
+                   Log.d("gagalGetData:",task.getException().toString());
+               }
+
+           }
+       }).addOnFailureListener(new OnFailureListener() {
+           @Override
+           public void onFailure(@NonNull Exception e) {
+               resetSVFasilitas();
+               pDialogLoading.dismiss();
+               new SweetAlertDialog(ResultActivity.this,SweetAlertDialog.ERROR_TYPE)
+                       .setContentText("Pengambilan data gagal")
+                       .show();
+               Log.d("gagalGetData:",e.toString());
+           }
+       });
+    }
+
+    public void getDataKosByString(){
+        ref.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                kosanList.clear();
+                adapter.notifyDataSetChanged();
+
+                if (task.isSuccessful()){
+
+                    QuerySnapshot dc = task.getResult();
+                    if (dc.isEmpty()){
+                        txtInfo.setVisibility(View.VISIBLE);
+                    }else {
+
+                        for (DocumentSnapshot doc : task.getResult()){
+                            String idKos = doc.get("idKos").toString();
+
+                            //membandingkan dengan isi array kosan yang punya fasilits tsb
+                            for (int c=0;c<listKos.size();c++){
+                                if (idKos.equals(listKos.get(c).toString())){
+                                    Kosan kosan = doc.toObject(Kosan.class);
+
+                                    kosanList.add(kosan);
+                                    adapter.notifyDataSetChanged();
+                                }
+                            }
+                        }
+                    }
+
+                }else {
+                    new SweetAlertDialog(ResultActivity.this,SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("terjadi kesalahan")
+                            .setContentText("coba lagi nanti / periksa koneksi anda")
+                            .show();
+                    Log.d("erorGetKosan:",""+task.getException().getMessage());
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                new SweetAlertDialog(ResultActivity.this,SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("terjadi kesalahan")
+                        .setContentText("coba lagi nanti / periksa koneksi anda")
+                        .show();
+                Log.d("erorGetKosan:",""+e.getMessage().toString());
+            }
+        });
+    }
+
+    public void resetSVFasilitas(){
+        SharedVariable.isFilterFasilitas = "no";
+        SharedVariable.idFilterFslts = "no";
+        SharedVariable.namaFilterFslts = "no";
     }
 }

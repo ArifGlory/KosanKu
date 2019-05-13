@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginHorizontal="10dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".activity.DetailKosActivity"
     tools:showIn="@layout/activity_detail_kos">
@@ -62,6 +63,18 @@
                 android:textSize="13sp"
                 android:textStyle="bold"
                 android:id="@+id/btnLokasi"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/white_greyish" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_height="wrap_content"
+                android:text="   Beri Rating"
+                android:textSize="13sp"
+                android:drawableLeft="@drawable/ic_star_white_24dp"
+                android:textStyle="bold"
+                android:id="@+id/btnRating"
                 android:background="@color/colorPrimary"
                 android:textColor="@color/white_greyish" />
 

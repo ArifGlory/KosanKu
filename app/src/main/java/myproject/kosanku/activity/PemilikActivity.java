@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.client.Firebase;
 import com.google.firebase.FirebaseApp;
@@ -35,6 +37,7 @@ public class PemilikActivity extends AppCompatActivity
     private FirebaseAuth fAuth;
     private FirebaseAuth.AuthStateListener fStateListener;
     FirebaseUser fbUser;
+    int klik = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,12 +78,27 @@ public class PemilikActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        klik++;
+        if (klik<2){
+            Toast.makeText(getApplicationContext(),"Tekan sekali lagi untuk logout",Toast.LENGTH_SHORT).show();
+        }else {
+            klik = 0;
+            if (fbUser!=null){
+                fAuth.signOut();
+                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(i);
+            }else {
+                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(i);
+            }
+        }
+
+       /* DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
-        }
+        }*/
     }
 
     @Override
@@ -123,6 +141,9 @@ public class PemilikActivity extends AppCompatActivity
                 fAuth.signOut();
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(i);
+            }else {
+                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(i);
             }
         }
 
@@ -131,5 +152,12 @@ public class PemilikActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        Log.d("PemilikActivity:","Resume");
+        fragmentHomePemilik.getDataKosan();
+        super.onResume();
     }
 }

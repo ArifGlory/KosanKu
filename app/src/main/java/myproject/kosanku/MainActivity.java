@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.client.Firebase;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     FirebaseFirestore firestore;
     private SweetAlertDialog pDialogLoading,pDialodInfo;
+    int klik = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,5 +138,25 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        klik++;
+        if (klik<2){
+            Toast.makeText(getApplicationContext(),"Tekan sekali lagi untuk keluar",Toast.LENGTH_SHORT).show();
+        }else {
+            klik = 0;
+            finishAffinity();
+            System.exit(0);
+
+        }
+
+       /* DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }*/
     }
 }

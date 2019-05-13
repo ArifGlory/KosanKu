@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -21,8 +22,11 @@ import java.util.Locale;
 
 import myproject.kosanku.Kelas.Fasilitas;
 import myproject.kosanku.Kelas.Kosan;
+import myproject.kosanku.Kelas.SharedVariable;
 import myproject.kosanku.R;
 import myproject.kosanku.activity.DetailKosActivity;
+import myproject.kosanku.activity.ResultActivity;
+import myproject.kosanku.fragment.FragmentHome;
 
 
 /**
@@ -37,11 +41,13 @@ public class AdapterFasilitas extends RecyclerView.Adapter<AdapterFasilitas.MyVi
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView txtNamaFasilitas;
         public ImageView imgFasilitas;
+        public RelativeLayout relaList;
 
         public MyViewHolder(View view) {
             super(view);
             txtNamaFasilitas = (TextView) view.findViewById(R.id.txtNamaFasilitas);
             imgFasilitas = view.findViewById(R.id.imgFasilitas);
+            relaList = view.findViewById(R.id.relaList);
 
         }
     }
@@ -86,6 +92,20 @@ public class AdapterFasilitas extends RecyclerView.Adapter<AdapterFasilitas.MyVi
             }else if (fasilitas.getIdFasilitas().equals("Lemari")){
                 holder.imgFasilitas.setImageResource(R.drawable.cupboard);
             }
+
+            holder.relaList.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!SharedVariable.isFilterFasilitas.equals("no")){
+                        FragmentHome.dialog.dismiss();
+                        SharedVariable.idFilterFslts = fasilitas.getIdFasilitas();
+                        SharedVariable.namaFilterFslts = fasilitas.getNamaFasilitas();
+                        Intent intent = new Intent(mContext,ResultActivity.class);
+                        intent.putExtra("tipe","fasilitas");
+                        mContext.startActivity(intent);
+                    }
+                }
+            });
 
         }
 

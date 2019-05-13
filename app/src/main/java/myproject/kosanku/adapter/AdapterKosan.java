@@ -3,6 +3,7 @@ package myproject.kosanku.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,6 +17,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.firebase.client.Firebase;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.NumberFormat;
 import java.util.List;
@@ -29,6 +35,8 @@ import myproject.kosanku.R;
 import myproject.kosanku.activity.DetailKosActivity;
 import myproject.kosanku.activity.PemilikActivity;
 import myproject.kosanku.activity.PilihFasilitasActivity;
+import myproject.kosanku.activity.UbahKosActivity;
+import myproject.kosanku.fragment.FragmentHomePemilik;
 
 
 /**
@@ -38,6 +46,9 @@ public class AdapterKosan extends RecyclerView.Adapter<AdapterKosan.MyViewHolder
 
     private Context mContext;
     private List<Kosan> kosanList;
+    FirebaseFirestore firestore;
+    CollectionReference ref;
+    private SweetAlertDialog pDialogLoading,pDialodInfo;
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -59,6 +70,16 @@ public class AdapterKosan extends RecyclerView.Adapter<AdapterKosan.MyViewHolder
     public AdapterKosan(Context mContext, List<Kosan> kosanList) {
         this.mContext = mContext;
         this.kosanList = kosanList;
+        Firebase.setAndroidContext(mContext);
+        FirebaseApp.initializeApp(mContext);
+        firestore = FirebaseFirestore.getInstance();
+        ref = firestore.collection("kosan");
+
+        pDialogLoading = new SweetAlertDialog(mContext, SweetAlertDialog.PROGRESS_TYPE);
+        pDialogLoading.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialogLoading.setTitleText("Loading..");
+        pDialogLoading.setCancelable(false);
+
 
     }
 
@@ -118,7 +139,9 @@ public class AdapterKosan extends RecyclerView.Adapter<AdapterKosan.MyViewHolder
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
 
-
+                                        Intent intent = new Intent(mContext,UbahKosActivity.class);
+                                        intent.putExtra("kosan",kosan);
+                                        mContext.startActivity(intent);
                                         sDialog.dismissWithAnimation();
 
                                     }
@@ -127,6 +150,17 @@ public class AdapterKosan extends RecyclerView.Adapter<AdapterKosan.MyViewHolder
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
                                         sDialog.dismissWithAnimation();
+                                        pDialogLoading.show();
+                                        ref.document(kosan.getIdKos()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                pDialogLoading.dismiss();
+                                               Intent intent = new Intent(mContext,PemilikActivity.class);
+                                               mContext.startActivity(intent);
+                                            }
+                                        });
+
+
 
                                     }
                                 })

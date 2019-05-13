@@ -19,7 +19,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
-            android:src="@drawable/logo_transparent" />
+            android:src="@drawable/logo_kosanku_new" />
 
         <TextView
             android:layout_width="wrap_content"

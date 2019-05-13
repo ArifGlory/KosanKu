@@ -22,8 +22,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.appyvet.materialrangebar.IRangeBarFormatter;
-import com.appyvet.materialrangebar.RangeBar;
 import com.firebase.client.Firebase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -34,7 +32,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.marcinmoskala.arcseekbar.ArcSeekBar;
 
 import org.w3c.dom.Text;
 
@@ -44,10 +41,12 @@ import java.util.List;
 import java.util.Locale;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import myproject.kosanku.Kelas.Fasilitas;
 import myproject.kosanku.Kelas.Kosan;
 import myproject.kosanku.Kelas.SharedVariable;
 import myproject.kosanku.R;
 import myproject.kosanku.activity.ResultActivity;
+import myproject.kosanku.adapter.AdapterFasilitas;
 import myproject.kosanku.adapter.AdapterKosan;
 
 
@@ -72,6 +71,8 @@ public class FragmentHome extends Fragment {
     LinearLayout lineHarga,lineFasilitas,lineSort;
     public static android.app.AlertDialog dialog;
     private long maxHarga;
+    AdapterFasilitas adapterFasilitas;
+    private List<Fasilitas> fasilitasList;
 
 
     @Override
@@ -92,6 +93,9 @@ public class FragmentHome extends Fragment {
         kosanList = new ArrayList<>();
         adapter = new AdapterKosan(getActivity(),kosanList);
 
+        fasilitasList = new ArrayList<>();
+        adapterFasilitas = new AdapterFasilitas(getActivity(),fasilitasList);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -102,6 +106,18 @@ public class FragmentHome extends Fragment {
         pDialogLoading.setTitleText("Loading..");
         pDialogLoading.setCancelable(false);
         pDialogLoading.show();
+
+        Fasilitas fasilitas1 = new Fasilitas("AC","Fasilitas AC");
+        Fasilitas fasilitas2 = new Fasilitas("KmrMandi","Fasilitas Kamar Mandi");
+        Fasilitas fasilitas3 = new Fasilitas("Wifi","Fasilitas Wifi");
+        Fasilitas fasilitas4 = new Fasilitas("Kasur","Fasilitas Kasur");
+        Fasilitas fasilitas5 = new Fasilitas("Lemari","Fasilitas Lemari");
+
+       fasilitasList.add(fasilitas1);
+       fasilitasList.add(fasilitas2);
+       fasilitasList.add(fasilitas3);
+       fasilitasList.add(fasilitas4);
+       fasilitasList.add(fasilitas5);
 
         lineSort.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,13 +207,33 @@ public class FragmentHome extends Fragment {
                 dialog.show();
             }
         });
+        lineFasilitas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater minlfater = LayoutInflater.from(getActivity());
+                View v2 = minlfater.inflate(R.layout.dialog_fasilitas, null);
+                dialog = new android.app.AlertDialog.Builder(getActivity()).create();
+                dialog.setView(v2);
+
+                SharedVariable.isFilterFasilitas = "yes";
+                RecyclerView rvFasilitas = v2.findViewById(R.id.rvFasilitas);
+                final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+                layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                rvFasilitas.setLayoutManager(layoutManager);
+                rvFasilitas.setAdapter(adapterFasilitas);
+                rvFasilitas.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+
+                dialog.show();
+            }
+        });
 
         getDataKosan();
 
         return view;
     }
 
-    private void getDataKosan(){
+    public void getDataKosan(){
 
 
         ref.orderBy("idKos",Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -235,8 +271,10 @@ public class FragmentHome extends Fragment {
         });
     }
 
-
-
-
-
+    @Override
+    public void onResume() {
+        Log.d("FragmentHome:","Resume");
+        getDataKosan();
+        super.onResume();
+    }
 }
