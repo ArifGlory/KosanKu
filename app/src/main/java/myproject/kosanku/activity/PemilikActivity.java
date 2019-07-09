@@ -145,7 +145,10 @@ public class PemilikActivity extends AppCompatActivity
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(i);
             }
-        }
+        } /*else if (id == R.id.nav_add_filter){
+            Intent i = new Intent(getApplicationContext(), AddFilterFasilitas.class);
+            startActivity(i);
+        }*/
 
 
 

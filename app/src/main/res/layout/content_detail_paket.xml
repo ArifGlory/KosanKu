@@ -22,6 +22,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginBottom="5dp">
+
             <TextView
                 android:id="@+id/txtHarga"
                 android:layout_width="wrap_content"
@@ -31,11 +32,24 @@
                 android:textStyle="bold"
                 android:textSize="20dp" />
 
+
         </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tipe Pembayaran"
+            android:layout_gravity="center_vertical"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            android:id="@+id/txtTipeBayar"
+            android:textColor="@color/black2"
+            />
 
 
         <TextView
             android:id="@+id/txtSisaKamar"
+            android:layout_marginTop="5dp"
             android:background="@drawable/btn_round"
             android:layout_marginLeft="5dp"
             android:layout_width="wrap_content"

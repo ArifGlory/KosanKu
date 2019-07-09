@@ -45,6 +45,7 @@ import myproject.kosanku.Kelas.Fasilitas;
 import myproject.kosanku.Kelas.Kosan;
 import myproject.kosanku.Kelas.SharedVariable;
 import myproject.kosanku.R;
+import myproject.kosanku.activity.PilihFasilitasActivity;
 import myproject.kosanku.activity.ResultActivity;
 import myproject.kosanku.adapter.AdapterFasilitas;
 import myproject.kosanku.adapter.AdapterKosan;
@@ -210,7 +211,11 @@ public class FragmentHome extends Fragment {
         lineFasilitas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LayoutInflater minlfater = LayoutInflater.from(getActivity());
+
+                Intent intent = new Intent(getActivity(), PilihFasilitasActivity.class);
+                startActivity(intent);
+
+               /* LayoutInflater minlfater = LayoutInflater.from(getActivity());
                 View v2 = minlfater.inflate(R.layout.dialog_fasilitas, null);
                 dialog = new android.app.AlertDialog.Builder(getActivity()).create();
                 dialog.setView(v2);
@@ -224,7 +229,7 @@ public class FragmentHome extends Fragment {
                 rvFasilitas.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 
-                dialog.show();
+                dialog.show();*/
             }
         });
 
@@ -245,7 +250,16 @@ public class FragmentHome extends Fragment {
                 if (task.isSuccessful()){
                     pDialogLoading.dismiss();
                     for (DocumentSnapshot doc : task.getResult()){
+                        String tipeBayar = "";
+                        if (doc.get("tipeBayar") != null ){
+                            tipeBayar = doc.get("tipeBayar").toString();
+
+                        }else {
+                            tipeBayar ="-";
+                        }
+                        Log.d("tipeBayar:",tipeBayar);
                         Kosan kosan = doc.toObject(Kosan.class);
+                        kosan.setTipeBayar(tipeBayar);
 
                         kosanList.add(kosan);
                         adapter.notifyDataSetChanged();

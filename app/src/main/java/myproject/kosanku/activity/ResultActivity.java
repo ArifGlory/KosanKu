@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import myproject.kosanku.Kelas.FilterFasilitas;
 import myproject.kosanku.Kelas.Kosan;
 import myproject.kosanku.Kelas.SharedVariable;
 import myproject.kosanku.R;
@@ -47,6 +48,7 @@ public class ResultActivity extends AppCompatActivity {
     private String tipe;
     private Toolbar my_toolbar;
     TextView txtInfo;
+    private List<String> listIdKosan = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +58,7 @@ public class ResultActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(getApplicationContext());
         firestore = FirebaseFirestore.getInstance();
         ref = firestore.collection("kosan");
-        refFasilitas = firestore.collection("fasilitas");
+        refFasilitas = firestore.collection("filterFasilitas");
 
         intent = getIntent();
         tipe = intent.getStringExtra("tipe");
@@ -96,10 +98,49 @@ public class ResultActivity extends AppCompatActivity {
             getSupportActionBar().setTitle("Filter Harga");
             getDataByHarga();
         }else if (tipe.equals("fasilitas")){
-            getSupportActionBar().setTitle(""+SharedVariable.namaFilterFslts);
-            getDataByFasilitas(SharedVariable.idFilterFslts);
+            getSupportActionBar().setTitle("Filter Fasilitas");
+            getDataByFasilitas();
 
+        }else if (tipe.equals("search")){
+            getSupportActionBar().setTitle("Filter Alamat");
+            getFilteredSearch();
         }
+    }
+
+    public void getFilteredSearch(){
+        ref.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()){
+
+                    for (DocumentSnapshot doc : task.getResult()){
+
+                        String alamat = doc.get("alamat").toString();
+                        alamat = alamat.toLowerCase();
+                        String keyword = SharedVariable.keyword;
+                        keyword = keyword.toLowerCase();
+
+                        if (alamat.contains(keyword)){
+                            Log.d("filterSearch:","data ditemukan!, alamat :"+alamat);
+                            Kosan kosan = doc.toObject(Kosan.class);
+                            if ( kosan.getTipeBayar() == null ||kosan.getTipeBayar().equals("") || kosan.getTipeBayar().length() == 0 ){
+                                kosan.setTipeBayar("-");
+                            }
+                            kosanList.add(kosan);
+                        }
+
+                    }
+                    adapter.notifyDataSetChanged();
+                    pDialogLoading.dismiss();
+                }else {
+                    pDialogLoading.dismiss();
+                    new SweetAlertDialog(ResultActivity.this,SweetAlertDialog.ERROR_TYPE)
+                            .setContentText("Terjadi kesalahan,coba lagi nanti")
+                            .show();
+                    Log.d("gagalGetData:",task.getException().toString());
+                }
+            }
+        });
     }
 
     public void getDataSortDesc(){
@@ -113,7 +154,9 @@ public class ResultActivity extends AppCompatActivity {
                     pDialogLoading.dismiss();
                     for (DocumentSnapshot doc : task.getResult()){
                         Kosan kosan = doc.toObject(Kosan.class);
-
+                        if ( kosan.getTipeBayar() == null ||kosan.getTipeBayar().equals("") || kosan.getTipeBayar().length() == 0 ){
+                            kosan.setTipeBayar("-");
+                        }
                         kosanList.add(kosan);
                         adapter.notifyDataSetChanged();
                     }
@@ -149,7 +192,9 @@ public class ResultActivity extends AppCompatActivity {
                     pDialogLoading.dismiss();
                     for (DocumentSnapshot doc : task.getResult()){
                         Kosan kosan = doc.toObject(Kosan.class);
-
+                        if ( kosan.getTipeBayar() == null ||kosan.getTipeBayar().equals("") || kosan.getTipeBayar().length() == 0 ){
+                            kosan.setTipeBayar("-");
+                        }
                         kosanList.add(kosan);
                         adapter.notifyDataSetChanged();
                     }
@@ -190,7 +235,9 @@ public class ResultActivity extends AppCompatActivity {
                     pDialogLoading.dismiss();
                     for (DocumentSnapshot doc : task.getResult()){
                         Kosan kosan = doc.toObject(Kosan.class);
-
+                        if ( kosan.getTipeBayar() == null ||kosan.getTipeBayar().equals("") || kosan.getTipeBayar().length() == 0 ){
+                            kosan.setTipeBayar("-");
+                        }
                         kosanList.add(kosan);
                         adapter.notifyDataSetChanged();
                     }
@@ -215,49 +262,79 @@ public class ResultActivity extends AppCompatActivity {
         });
     }
 
-    public void getDataByFasilitas(String idFasilitas){
-       refFasilitas.document(idFasilitas).collection("listKos").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-           @Override
-           public void onComplete(@NonNull Task<QuerySnapshot> task) {
-               QuerySnapshot dc = task.getResult();
-               pDialogLoading.dismiss();
+    public void getDataByFasilitas(){
+        listIdKosan.clear();
+        refFasilitas.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()){
 
-               if (dc.isEmpty()){
-                   resetSVFasilitas();
-                   txtInfo.setVisibility(View.VISIBLE);
-               }
+                    for (DocumentSnapshot doc : task.getResult()){
+                        FilterFasilitas filterFasilitas = doc.toObject(FilterFasilitas.class);
 
-               if (task.isSuccessful()){
-                   resetSVFasilitas();
-                   listKos.clear();
+                        if (SharedVariable.listFiltered.contains(filterFasilitas.idFasilitas)){
 
-                   for (DocumentSnapshot doc : task.getResult()){
-                       String idKos = doc.getId();
-                       listKos.add(idKos);
-                       Log.d("resultKos:",idKos);
-                   }
-                   getDataKosByString();
+                            if (!listIdKosan.contains(filterFasilitas.idKos)){
+                                listIdKosan.add(filterFasilitas.idKos);
+                            }
+                        }
+                    }
 
-               }else {
-                   resetSVFasilitas();
-                   new SweetAlertDialog(ResultActivity.this,SweetAlertDialog.ERROR_TYPE)
-                           .setContentText("Pengambilan data gagal")
-                           .show();
-                   Log.d("gagalGetData:",task.getException().toString());
-               }
+                    if (listIdKosan.isEmpty()){
+                        pDialogLoading.dismiss();
+                        new SweetAlertDialog(ResultActivity.this,SweetAlertDialog.NORMAL_TYPE)
+                                .setTitleText("Kosong")
+                                .setContentText("Belum ada kosan dengan kriteria tersebut")
+                                .show();
+                    }else {
+                        for (int c = 0;c<listIdKosan.size();c++){
+                            Log.d("filteredByFasilitas:","idKos : "+listIdKosan.get(c).toString());
+                        }
+                        getDataFilteredKosanByFasilitas();
+                    }
 
-           }
-       }).addOnFailureListener(new OnFailureListener() {
-           @Override
-           public void onFailure(@NonNull Exception e) {
-               resetSVFasilitas();
-               pDialogLoading.dismiss();
-               new SweetAlertDialog(ResultActivity.this,SweetAlertDialog.ERROR_TYPE)
-                       .setContentText("Pengambilan data gagal")
-                       .show();
-               Log.d("gagalGetData:",e.toString());
-           }
-       });
+
+                }else {
+                    pDialogLoading.dismiss();
+                    new SweetAlertDialog(ResultActivity.this,SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("terjadi kesalahan")
+                            .setContentText("coba lagi nanti / periksa koneksi anda")
+                            .show();
+                    Log.d("erorGetKosan:",""+task.getException().getMessage());
+                }
+            }
+        });
+    }
+
+    public void getDataFilteredKosanByFasilitas(){
+
+
+        ref.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                kosanList.clear();
+                adapter.notifyDataSetChanged();
+
+                if (task.isSuccessful()){
+                    for (DocumentSnapshot doc : task.getResult()){
+                        String idKos = doc.getId();
+
+
+                        if (listIdKosan.contains(idKos)){
+                            Kosan kosan = doc.toObject(Kosan.class);
+                            if ( kosan.getTipeBayar() == null ||kosan.getTipeBayar().equals("") || kosan.getTipeBayar().length() == 0 ){
+                                kosan.setTipeBayar("-");
+                            }
+                            kosanList.add(kosan);
+                            adapter.notifyDataSetChanged();
+                        }
+
+                    }
+                    pDialogLoading.dismiss();
+                }
+            }
+        });
+
     }
 
     public void getDataKosByString(){
@@ -310,9 +387,5 @@ public class ResultActivity extends AppCompatActivity {
         });
     }
 
-    public void resetSVFasilitas(){
-        SharedVariable.isFilterFasilitas = "no";
-        SharedVariable.idFilterFslts = "no";
-        SharedVariable.namaFilterFslts = "no";
-    }
+
 }

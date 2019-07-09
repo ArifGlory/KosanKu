@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -24,9 +23,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
+        <activity android:name=".activity.AddFilterFasilitas"></activity>
+        <activity
+            android:name=".activity.MoreImageActivity"
+            android:label="Lebih Banyak Gambar" />
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.DaftarActivity"
             android:label="Daftar Akun" />
@@ -74,8 +77,9 @@
         <activity
             android:name=".activity.ResultActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.UbahKosActivity"
-            android:label="Ubah Data Kos"></activity>
+        <activity
+            android:name=".activity.UbahKosActivity"
+            android:label="Ubah Data Kos" />
     </application>
 
 </manifest>

@@ -23,6 +23,11 @@
         <item>Penyewa</item>
         <item>Pemilik</item>
     </string-array>
+    <string-array name="tipeBayar">
+        <item>Pilih Tipe Pembayaran</item>
+        <item>Bulanan</item>
+        <item>Tahunan</item>
+    </string-array>
     <color name="sliderBack">#4227395a</color>
     <array name="progressGradientColors">
         <item>#b5fff6</item>

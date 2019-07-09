@@ -45,10 +45,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         Firebase.setAndroidContext(this);
         FirebaseApp.initializeApp(MainActivity.this);
-        fAuth = FirebaseAuth.getInstance();
+        fAuth = FirebaseAuth.getInstance();        setContentView(R.layout.activity_main);
+
         firestore = FirebaseFirestore.getInstance();
 
         relaContainer = findViewById(R.id.relaContainer);

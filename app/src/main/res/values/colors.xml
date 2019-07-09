@@ -23,7 +23,7 @@
     <color name="btn_default_light_pressed">#40ffffff</color>
 
     <color name="btn_context_menu_normal">#ffffff</color>
-    <color name="btn_context_menu_pressed">#40000000</color>
+    <color name="btn_context_menu_pressed">#94000000</color>
     <color name="btn_context_menu_text_red">#ffff0000</color>
 
     <color name="style_color_primary">#2d5d82</color>

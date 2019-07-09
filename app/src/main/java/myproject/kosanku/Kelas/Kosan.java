@@ -12,6 +12,7 @@ public class Kosan implements Serializable {
     public String gambarUtama;
     public String idKos;
     public String latlon;
+    public String tipeBayar;
 
 
     public Kosan(String namaKos, String alamat, int harga, int sisaKamar, String uidPemilik, String gambarUtama, String idKos, String latlon) {
@@ -27,6 +28,14 @@ public class Kosan implements Serializable {
 
     public Kosan(){
 
+    }
+
+    public String getTipeBayar() {
+        return tipeBayar;
+    }
+
+    public void setTipeBayar(String tipeBayar) {
+        this.tipeBayar = tipeBayar;
     }
 
     public String getNamaKos() {

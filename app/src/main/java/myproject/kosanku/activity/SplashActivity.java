@@ -45,6 +45,8 @@ public class SplashActivity extends AppCompatActivity {
 
         progressBar = findViewById(R.id.progressBar);
 
+
+
         if (fbUser!=null){
             Log.d("fbUser:","ada fbuser"+fbUser.getDisplayName());
             String token = FirebaseInstanceId.getInstance().getToken();

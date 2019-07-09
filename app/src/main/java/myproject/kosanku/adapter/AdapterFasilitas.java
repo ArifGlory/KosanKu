@@ -91,6 +91,8 @@ public class AdapterFasilitas extends RecyclerView.Adapter<AdapterFasilitas.MyVi
                 holder.imgFasilitas.setImageResource(R.drawable.bed);
             }else if (fasilitas.getIdFasilitas().equals("Lemari")){
                 holder.imgFasilitas.setImageResource(R.drawable.cupboard);
+            }else if (fasilitas.getIdFasilitas().equals("Meja")){
+                holder.imgFasilitas.setImageResource(R.drawable.table);
             }
 
             holder.relaList.setOnClickListener(new View.OnClickListener() {

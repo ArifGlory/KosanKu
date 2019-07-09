@@ -76,6 +76,23 @@
 
         </android.support.design.widget.TextInputLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tipe Pembayaran"
+            android:layout_marginTop="10dp"
+            android:textSize="18sp"
+            android:textColor="@color/black2"
+            />
+
+        <Spinner
+            android:padding="10dp"
+            android:id="@+id/spTipeBayar"
+            android:entries="@array/tipeBayar"
+            android:background="@drawable/et_background1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></Spinner>
+
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_marginTop="10dp"

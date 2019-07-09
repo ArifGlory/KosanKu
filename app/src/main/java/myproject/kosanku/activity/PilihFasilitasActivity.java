@@ -16,19 +16,25 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import myproject.kosanku.Kelas.Fasilitas;
+import myproject.kosanku.Kelas.FilterFasilitas;
 import myproject.kosanku.Kelas.SharedVariable;
 import myproject.kosanku.R;
 
 public class PilihFasilitasActivity extends AppCompatActivity {
 
     Button btnSelesai;
-    CheckBox checkAc,checkKmrMandi,checkWifi,checkKasur,checkLemari;
+    CheckBox checkAc,checkKmrMandi,checkWifi,checkKasur,checkLemari,checkMeja;
     FirebaseFirestore firestore;
     private SweetAlertDialog pDialogLoading,pDialodInfo;
-    CollectionReference ref,refFasilitas;
-    private String idAC,idKmrMandi,idLemari,idKasur,idWifi;
+    CollectionReference ref,refFasilitas,refFilter;
+    private String idAC,idKmrMandi,idLemari,idKasur,idWifi,idMeja;
+   
+   private String filtered = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,28 +45,65 @@ public class PilihFasilitasActivity extends AppCompatActivity {
         firestore = FirebaseFirestore.getInstance();
         ref = firestore.collection("kosan");
         refFasilitas = firestore.collection("fasilitas");
+        refFilter = firestore.collection("filterFasilitas");
 
         idAC = "AC";
         idKasur = "Kasur";
         idKmrMandi = "KmrMandi";
         idLemari = "Lemari";
         idWifi = "Wifi";
+        idMeja = "Meja";
 
         checkAc = findViewById(R.id.checkAC);
+        checkKmrMandi = findViewById(R.id.checkKmrMandi);
         checkKmrMandi = findViewById(R.id.checkKmrMandi);
         checkWifi = findViewById(R.id.checkWifi);
         checkKasur = findViewById(R.id.checkKasur);
         checkLemari = findViewById(R.id.checkLemari);
+        checkMeja = findViewById(R.id.checkMeja);
         btnSelesai = findViewById(R.id.btnSelesai);
 
         btnSelesai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkValidation();
+
+                if (SharedVariable.akses.equals("Pemilik")){
+                    checkValidation();
+                }else {
+                    getFilteredKosan();
+                }
+
+
             }
         });
 
 
+    }
+
+    private void getFilteredKosan(){
+        SharedVariable.listFiltered.clear();
+        if (checkAc.isChecked()){
+            SharedVariable.listFiltered.add("AC");
+        }
+        if (checkKasur.isChecked()){
+            SharedVariable.listFiltered.add("Kasur");
+        }
+        if (checkKmrMandi.isChecked()){
+            SharedVariable.listFiltered.add("KmrMandi");
+        }
+        if (checkLemari.isChecked()){
+            SharedVariable.listFiltered.add("Lemari");
+        }
+        if (checkWifi.isChecked()){
+            SharedVariable.listFiltered.add("Wifi");
+        }
+        if (checkMeja.isChecked()){
+            SharedVariable.listFiltered.add("Meja");
+        }
+
+        Intent intent = new Intent(getApplicationContext(),ResultActivity.class);
+        intent.putExtra("tipe","fasilitas");
+        startActivity(intent);
     }
 
     private void checkValidation(){
@@ -96,6 +139,18 @@ public class PilihFasilitasActivity extends AppCompatActivity {
                 }
             });
 
+            //simpan ke filterfasilitas
+            FilterFasilitas filterFasilitas = new FilterFasilitas(
+                    SharedVariable.idKos,
+                    "AC");
+            String id =  ref.document().getId();
+            refFilter.document(id).set(filterFasilitas).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    Log.d("filterFasilitas:",SharedVariable.idKos+" | AC Berhasil");
+                }
+            });
+
         }
         if (checkKmrMandi.isChecked()){
             Fasilitas fasilitas= new Fasilitas(idKmrMandi,"Fasilitas Kamar Mandi");
@@ -114,6 +169,18 @@ public class PilihFasilitasActivity extends AppCompatActivity {
                             Log.d("fasilitas:","Fasilitas Kamar Mandi disimpan");
                         }
                     });
+
+            //simpan ke filterfasilitas
+            FilterFasilitas filterFasilitas = new FilterFasilitas(
+                    SharedVariable.idKos,
+                    "KmrMandi");
+            String id =  ref.document().getId();
+            refFilter.document(id).set(filterFasilitas).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    Log.d("filterFasilitas:",SharedVariable.idKos+" | KmrMandi Berhasil");
+                }
+            });
         }
         if (checkWifi.isChecked()){
             Fasilitas fasilitas = new Fasilitas(idWifi,"Fasilitas Free Wifi");
@@ -132,6 +199,18 @@ public class PilihFasilitasActivity extends AppCompatActivity {
                             Log.d("fasilitas:","Fasilitas Wifi disimpan");
                         }
                     });
+
+            //simpan ke filterfasilitas
+            FilterFasilitas filterFasilitas = new FilterFasilitas(
+                    SharedVariable.idKos,
+                    "Wifi");
+            String id =  ref.document().getId();
+            refFilter.document(id).set(filterFasilitas).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    Log.d("filterFasilitas:",SharedVariable.idKos+" | Wifi Berhasil");
+                }
+            });
         }
         if (checkLemari.isChecked()){
             Fasilitas fasilitas = new Fasilitas(idLemari,"Fasilitas Lemari");
@@ -150,6 +229,18 @@ public class PilihFasilitasActivity extends AppCompatActivity {
                             Log.d("fasilitas:","Fasilitas Lemari disimpan");
                         }
                     });
+
+            //simpan ke filterfasilitas
+            FilterFasilitas filterFasilitas = new FilterFasilitas(
+                    SharedVariable.idKos,
+                    "Lemari");
+            String id =  ref.document().getId();
+            refFilter.document(id).set(filterFasilitas).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    Log.d("filterFasilitas:",SharedVariable.idKos+" | lemari Berhasil");
+                }
+            });
         }
         if (checkKasur.isChecked()){
             Fasilitas fasilitas = new Fasilitas(idKasur,"Fasilitas Kasur");
@@ -168,6 +259,49 @@ public class PilihFasilitasActivity extends AppCompatActivity {
                             Log.d("fasilitas:","Fasilitas Kasur disimpan");
                         }
                     });
+
+            //simpan ke filterfasilitas
+            FilterFasilitas filterFasilitas = new FilterFasilitas(
+                    SharedVariable.idKos,
+                    "Kasur");
+            String id =  ref.document().getId();
+            refFilter.document(id).set(filterFasilitas).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    Log.d("filterFasilitas:",SharedVariable.idKos+" | kasur Berhasil");
+                }
+            });
+        }
+
+        if (checkMeja.isChecked()){
+            Fasilitas fasilitas = new Fasilitas(idMeja,"Fasilitas Meja");
+
+            ref.document(SharedVariable.idKos).collection("listFasilitas").document(idMeja).set(fasilitas).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    Log.d("fasilitasKos:","Fasilitas Meja disimpan");
+                }
+            });
+
+            refFasilitas.document(idMeja).collection("listKos").document(SharedVariable.idKos).set(fasilitas)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Log.d("fasilitas:","Fasilitas Meja disimpan");
+                        }
+                    });
+
+            //simpan ke filterfasilitas
+            FilterFasilitas filterFasilitas = new FilterFasilitas(
+                    SharedVariable.idKos,
+                    "Meja");
+            String id =  ref.document().getId();
+            refFilter.document(id).set(filterFasilitas).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    Log.d("filterFasilitas:",SharedVariable.idKos+" | Meja Berhasil");
+                }
+            });
         }
 
         new SweetAlertDialog(PilihFasilitasActivity.this, SweetAlertDialog.SUCCESS_TYPE)
@@ -187,28 +321,35 @@ public class PilihFasilitasActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
-        new SweetAlertDialog(PilihFasilitasActivity.this, SweetAlertDialog.WARNING_TYPE)
-                .setTitleText("Lewati Pemilihan Fasilitas?")
-                .setContentText("Anda Yakin Ingin melewati penambahan fasilitas Kos?")
-                .setConfirmText("Ya")
-                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
+        super.onBackPressed();
+        if (SharedVariable.akses.equals("Pemilik")){
+            new SweetAlertDialog(PilihFasilitasActivity.this, SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText("Lewati Pemilihan Fasilitas?")
+                    .setContentText("Anda Yakin Ingin melewati penambahan fasilitas Kos?")
+                    .setConfirmText("Ya")
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
 
-                        Intent intent = new Intent(getApplicationContext(),PemilikActivity.class);
-                        startActivity(intent);
-                        sDialog.dismissWithAnimation();
+                            Intent intent = new Intent(getApplicationContext(),PemilikActivity.class);
+                            startActivity(intent);
+                            sDialog.dismissWithAnimation();
 
-                    }
-                })
-                .setCancelButton("Tidak", new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        sDialog.dismissWithAnimation();
+                        }
+                    })
+                    .setCancelButton("Tidak", new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.dismissWithAnimation();
 
-                    }
-                })
-                .show();
+                        }
+                    })
+                    .show();
+        }else {
+            Intent intent = new Intent(getApplicationContext(),BerandaActivity.class);
+            startActivity(intent);
+        }
+
+
     }
 }

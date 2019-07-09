@@ -9,16 +9,29 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.client.Firebase;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import myproject.kosanku.Kelas.SharedVariable;
 import myproject.kosanku.MainActivity;
 import myproject.kosanku.R;
 import myproject.kosanku.fragment.FragmentHome;
@@ -33,6 +46,9 @@ public class BerandaActivity extends AppCompatActivity {
     private Toolbar mTopToolbar;
     FragmentHome fragmentHome;
     FragmentProfil fragmentProfil;
+    EditText etFilterAlamat;
+    CollectionReference ref;
+    FirebaseFirestore firestore;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -69,10 +85,13 @@ public class BerandaActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(BerandaActivity.this);
         fAuth = FirebaseAuth.getInstance();
         fbUser = FirebaseAuth.getInstance().getCurrentUser();
+        firestore = FirebaseFirestore.getInstance();
+        ref = firestore.collection("kosan");
 
         mTopToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(mTopToolbar);
         mTopToolbar.setTitle("KosanKu");
+        etFilterAlamat = findViewById(R.id.etFilterAlamat);
 
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -83,6 +102,29 @@ public class BerandaActivity extends AppCompatActivity {
         fragmentProfil = new FragmentProfil();
 
         goToFragment(fragmentHome,true);
+
+        etFilterAlamat.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    // Perform action on key press
+                    //Toast.makeText(BerandaActivity.this, etFilterAlamat.getText(), Toast.LENGTH_SHORT).show();
+                    String keyword = etFilterAlamat.getText().toString();
+                    searchByAlamat(keyword);
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+    private void searchByAlamat(String keyword){
+        SharedVariable.keyword = keyword;
+        Intent intent = new Intent(getApplicationContext(),ResultActivity.class);
+        intent.putExtra("tipe","search");
+        startActivity(intent);
     }
 
     @Override

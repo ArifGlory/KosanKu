@@ -75,6 +75,16 @@
                     android:textColor="@color/black2"
                     />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tipe Pembayaran"
+                    android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:id="@+id/txtTipeBayar"
+                    android:textColor="@color/button_selectorcolor"
+                    />
+
                 <TextSwitcher
                     android:id="@+id/tsLikesCounter"
                     android:layout_marginTop="8dp"

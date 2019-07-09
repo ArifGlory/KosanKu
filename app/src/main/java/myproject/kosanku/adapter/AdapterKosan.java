@@ -52,7 +52,7 @@ public class AdapterKosan extends RecyclerView.Adapter<AdapterKosan.MyViewHolder
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView txtNamaKos,txtAlamat,txtHarga;
+        public TextView txtNamaKos,txtAlamat,txtHarga,txtTipeBayar;
         public ImageView imgKosan;
         public LinearLayout lineContainer;
 
@@ -61,6 +61,7 @@ public class AdapterKosan extends RecyclerView.Adapter<AdapterKosan.MyViewHolder
             txtNamaKos = (TextView) view.findViewById(R.id.txtNamaKos);
             txtAlamat = (TextView) view.findViewById(R.id.txtAlamat);
             txtHarga = (TextView) view.findViewById(R.id.txtHarga);
+            txtTipeBayar = (TextView) view.findViewById(R.id.txtTipeBayar);
             imgKosan = view.findViewById(R.id.ivFeedCenter);
             lineContainer = view.findViewById(R.id.lineContainer);
 
@@ -110,11 +111,14 @@ public class AdapterKosan extends RecyclerView.Adapter<AdapterKosan.MyViewHolder
             holder.txtNamaKos.setText(kosan.getNamaKos());
             holder.txtHarga.setText(formatRupiah.format((double) kosan.getHarga()));
             holder.txtAlamat.setText(kosan.getAlamat());
+            if (!kosan.tipeBayar.equals("-")){
+                holder.txtTipeBayar.setText(kosan.tipeBayar);
+            }else {
+                holder.txtTipeBayar.setText("Tipe Pembayaran belum di tentukan");
+            }
 
             Glide.with(mContext).load(kosan.getGambarUtama())
-                    .asBitmap()
                     //.fitCenter()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(holder.imgKosan);
 
             holder.lineContainer.setOnClickListener(new View.OnClickListener() {

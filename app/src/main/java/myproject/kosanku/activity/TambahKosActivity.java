@@ -12,9 +12,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,7 +51,7 @@ public class TambahKosActivity extends AppCompatActivity {
     TextView txtAlamat,txtInfoGambar;
     ImageView imgGambar;
     EditText etNamaKos,etHarga,etSisaKamar;
-    String timeStamp;
+    String timeStamp,tipeBayar;
     Button btnPilihAlamat,btnNext;
 
     private int PLACE_PICKER_REQUEST = 1;
@@ -65,6 +67,7 @@ public class TambahKosActivity extends AppCompatActivity {
     private Double lat,lon;
     Uri uri,file;
     FirebaseUser fbUser;
+    Spinner spTipeBayar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +78,7 @@ public class TambahKosActivity extends AppCompatActivity {
         firestore = FirebaseFirestore.getInstance();
         ref = firestore.collection("kosan");
         fbUser = FirebaseAuth.getInstance().getCurrentUser();
+        tipeBayar = "";
 
         txtAlamat = findViewById(R.id.txtAlamat);
         txtInfoGambar = findViewById(R.id.txtInfoGambar);
@@ -84,6 +88,7 @@ public class TambahKosActivity extends AppCompatActivity {
         etSisaKamar = findViewById(R.id.etSisaKamar);
         btnPilihAlamat = findViewById(R.id.btnPilihAlamat);
         btnNext = findViewById(R.id.btnNext);
+        spTipeBayar = findViewById(R.id.spTipeBayar);
 
         pDialogLoading = new SweetAlertDialog(TambahKosActivity.this, SweetAlertDialog.PROGRESS_TYPE);
         pDialogLoading.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
@@ -126,6 +131,17 @@ public class TambahKosActivity extends AppCompatActivity {
                 checkValidation();
             }
         });
+        spTipeBayar.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                tipeBayar = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
     }
@@ -141,6 +157,7 @@ public class TambahKosActivity extends AppCompatActivity {
                 || getHarga.equals("") || getHarga.length() == 0
                 || getSisa.equals("") || getSisa.length() == 0
                 || getAlamat.equals("Alamat") || getAlamat.length() == 0
+                || tipeBayar.equals("Pilih Tipe Pembayaran") || tipeBayar.length() == 0
                 ) {
 
             new SweetAlertDialog(TambahKosActivity.this,SweetAlertDialog.ERROR_TYPE)
@@ -160,6 +177,7 @@ public class TambahKosActivity extends AppCompatActivity {
 
             SharedVariable.tempKosan = new Kosan(getNama,getAlamat,harga,sisaKamar,
                     SharedVariable.userID,"aa",time,latlon);
+            SharedVariable.tempKosan.setTipeBayar(tipeBayar);
             SharedVariable.idKos = time;
 
            uploadGambar(uri);

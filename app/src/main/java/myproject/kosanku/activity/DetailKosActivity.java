@@ -65,7 +65,7 @@ import myproject.kosanku.adapter.AdapterKosan;
 
 public class DetailKosActivity extends AppCompatActivity implements RatingDialogListener {
 
-    TextView txtNamaKos,txtHarga,txtSisaKamar,txtRating;
+    TextView txtNamaKos,txtHarga,txtSisaKamar,txtRating,txtTipeBayar;
     ImageView imgKos;
     Button btnHubungi,btnLokasi,btnRating;
     FloatingActionButton btnUbahGambar;
@@ -118,6 +118,7 @@ public class DetailKosActivity extends AppCompatActivity implements RatingDialog
         txtNamaKos = findViewById(R.id.txtNamaKos);
         txtHarga = findViewById(R.id.txtHarga);
         txtSisaKamar = findViewById(R.id.txtSisaKamar);
+        txtTipeBayar = findViewById(R.id.txtTipeBayar);
         txtRating = findViewById(R.id.txtRating);
         btnHubungi = findViewById(R.id.btnHubungi);
         btnLokasi = findViewById(R.id.btnLokasi);
@@ -133,6 +134,11 @@ public class DetailKosActivity extends AppCompatActivity implements RatingDialog
         txtNamaKos.setText(kosan.getNamaKos());
         txtHarga.setText(formatRupiah.format((double) kosan.getHarga()));
         txtSisaKamar.setText("Sisa Kamar : "+kosan.getSisaKamar());
+        if (kosan.getTipeBayar().equals("-")){
+            txtTipeBayar.setText("Tipe Pembayaran belum ditentukan");
+        }else {
+            txtTipeBayar.setText(kosan.getTipeBayar());
+        }
 
         if (SharedVariable.akses.equals("Pemilik")){
             btnUbahGambar.setVisibility(View.VISIBLE);
@@ -140,7 +146,6 @@ public class DetailKosActivity extends AppCompatActivity implements RatingDialog
 
         Glide.with(this)
                 .load(kosan.getGambarUtama())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imgKos);
 
         btnLokasi.setOnClickListener(new View.OnClickListener() {
@@ -167,9 +172,9 @@ public class DetailKosActivity extends AppCompatActivity implements RatingDialog
             @Override
             public void onClick(View v) {
                 new SweetAlertDialog(DetailKosActivity.this, SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText("Ubah Gambar Utama")
-                        .setContentText("Anda Yakin Ingin Mengubah Gambar utama ?")
-                        .setConfirmText("Ya")
+                        .setTitleText("Ubah / Tambah Gambar")
+                        .setContentText("Anda Yakin Ingin Mengubah Detail Gambar?")
+                        .setConfirmText("Ubah Gambar Utama")
                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sDialog) {
@@ -185,9 +190,14 @@ public class DetailKosActivity extends AppCompatActivity implements RatingDialog
 
                             }
                         })
-                        .setCancelButton("Tidak", new SweetAlertDialog.OnSweetClickListener() {
+                        .setCancelButton("Tambah banyak gambar", new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sDialog) {
+
+                                Intent intent = new Intent(DetailKosActivity.this,MoreImageActivity.class);
+                                intent.putExtra("kosan",kosan);
+                                startActivity(intent);
+
                                 sDialog.dismissWithAnimation();
 
                             }
@@ -199,6 +209,14 @@ public class DetailKosActivity extends AppCompatActivity implements RatingDialog
             @Override
             public void onClick(View v) {
                 showDialogRating();
+            }
+        });
+        imgKos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(),MoreImageActivity.class);
+                i.putExtra("kosan",kosan);
+                startActivity(i);
             }
         });
 

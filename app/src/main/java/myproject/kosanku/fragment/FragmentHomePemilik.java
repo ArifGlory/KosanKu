@@ -110,7 +110,16 @@ public class FragmentHomePemilik extends Fragment {
                 if (task.isSuccessful()){
                     pDialogLoading.dismiss();
                     for (DocumentSnapshot doc : task.getResult()){
+                        String tipeBayar = "";
+                        if (doc.get("tipeBayar") != null ){
+                            tipeBayar = doc.get("tipeBayar").toString();
+
+                        }else {
+                            tipeBayar ="-";
+                        }
+                        Log.d("tipeBayar:",tipeBayar);
                         Kosan kosan = doc.toObject(Kosan.class);
+                        kosan.setTipeBayar(tipeBayar);
 
                         kosanList.add(kosan);
                         adapter.notifyDataSetChanged();
