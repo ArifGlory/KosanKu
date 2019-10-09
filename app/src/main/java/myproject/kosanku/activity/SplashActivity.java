@@ -28,7 +28,6 @@ public class SplashActivity extends AppCompatActivity {
 
     ProgressBar progressBar;
     Intent i;
-    int delay =  3000;
     private FirebaseAuth fAuth;
     private FirebaseAuth.AuthStateListener fStateListener;
     FirebaseFirestore firestore;

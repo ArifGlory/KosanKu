@@ -5,9 +5,18 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public class Gambar implements Serializable {
     public String urlGambar;
+    public String idGambar;
 
     public  Gambar(){
 
+    }
+
+    public String getIdGambar() {
+        return idGambar;
+    }
+
+    public void setIdGambar(String idGambar) {
+        this.idGambar = idGambar;
     }
 
     public Gambar(String urlGambar) {

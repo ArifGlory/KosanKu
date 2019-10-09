@@ -84,6 +84,8 @@ public class MoreImageActivity extends AppCompatActivity {
         gambarList = new ArrayList<>();
         adapter = new AdapterGambar(MoreImageActivity.this,gambarList);
 
+        SharedVariable.idKosAktif = kosan.getIdKos();
+
         pDialogLoading = new SweetAlertDialog(MoreImageActivity.this, SweetAlertDialog.PROGRESS_TYPE);
         pDialogLoading.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
         pDialogLoading.setTitleText("Loading..");
@@ -121,6 +123,17 @@ public class MoreImageActivity extends AppCompatActivity {
 
     }
 
+    public void showLoading(){
+        pDialogLoading.show();
+    }
+    public void dismissLoading(){
+        pDialogLoading.dismiss();
+    }
+    public void failDialog(){
+        new SweetAlertDialog(MoreImageActivity.this,SweetAlertDialog.ERROR_TYPE)
+                .setContentText("Terjadi kesalahan, coba lagi nanti");
+    }
+
     public void getDataGambar(){
 
         ref.document(kosan.getIdKos()).collection("listGambar").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -135,6 +148,8 @@ public class MoreImageActivity extends AppCompatActivity {
 
 
                         Gambar gambar = doc.toObject(Gambar.class);
+                        String idGambar = doc.getId();
+                        gambar.setIdGambar(idGambar);
                         gambarList.add(gambar);
                         adapter.notifyDataSetChanged();
                     }

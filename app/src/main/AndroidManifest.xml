@@ -23,7 +23,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
-        <activity android:name=".activity.AddFilterFasilitas"></activity>
+        <activity android:name=".activity.FulllImageActivity"></activity>
+        <activity android:name=".activity.AddFilterFasilitas" />
         <activity
             android:name=".activity.MoreImageActivity"
             android:label="Lebih Banyak Gambar" />

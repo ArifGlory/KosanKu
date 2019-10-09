@@ -9,6 +9,8 @@ public class SharedVariable {
     public static String nama = "-";
     public static String userID = "-";
     public static String foto = "no";
+    public static String idGambarAktif = "no";
+    public static String idKosAktif = "no";
     public static String keyword = "no";
     public static String akses = "no";
     public static String idKos = "no";

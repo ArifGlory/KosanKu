@@ -164,13 +164,10 @@ public class AdapterKosan extends RecyclerView.Adapter<AdapterKosan.MyViewHolder
                                             }
                                         });
 
-
-
                                     }
                                 })
                                 .show();
                     }
-
 
                     return true;
                 }
